@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\InvoicesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +25,11 @@ Route::get('/', function () {
 
 
 
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::resource('invoices', InvoicesController::class)->names('invoices');
 
-Route::get('/{page}' , [AdminController::class , 'index'])->name('index');
+Route::get('/{page}', [AdminController::class, 'index'])->name('index');
