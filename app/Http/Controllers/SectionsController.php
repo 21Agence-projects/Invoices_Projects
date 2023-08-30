@@ -13,6 +13,9 @@ class SectionsController extends Controller
     public function index()
     {
         //
+        $sections = sections::all();
+
+        return view('sections.sections' , compact('sections'));
     }
 
     /**
@@ -29,6 +32,7 @@ class SectionsController extends Controller
     public function store(Request $request)
     {
         //
+        dd($request);
     }
 
     /**
