@@ -33,24 +33,46 @@ class SectionsController extends Controller
     public function store(Request $request)
     {
         //
-        $input = $request->all();
+        // $input = $request->all();
 
-        $b_exists = sections::where('section_name' , '=' , $input['section_name'])->exists();
+        // $b_exists = sections::where('section_name' , '=' , $input['section_name'])->exists();
 
-        if($b_exists)
-        {
-            session()->flash('Error' , 'خطأ القسم مسجل مسبقا"');
-            return redirect('/sections');
-        }else {
-            sections::create([
-                'section_name' => $request->section_name,
-                'description' => $request->description,
-                'Created_by' => (Auth::user()->name),
-            ]);
+        // if($b_exists)
+        // {
+        //     session()->flash('Error' , 'خطأ القسم مسجل مسبقا"');
+        //     return redirect('/sections');
+        // }else {
+        //     sections::create([
+        //         'section_name' => $request->section_name,
+        //         'description' => $request->description,
+        //         'Created_by' => (Auth::user()->name),
+        //     ]);
 
-            session()->flash('Add' , 'تم إضافة القسم بنجاح');
-            return redirect('/sections');
-        }
+        //     session()->flash('Add' , 'تم إضافة القسم بنجاح');
+        //     return redirect('/sections');
+
+
+        // }
+
+        $validatedData = $request->validate([
+            'section_name' => 'required|unique:sections|max:255',
+            'description' =>  'required',
+        ],[
+            'section_name.required' => 'يرجى ادخال اسم القسم',
+            'section_name.unique' => 'اسم القسم مسجل مسبقا',
+            'description.required' => 'يرجى ادخال البيان '
+        ]);
+
+
+        sections::create([
+            'section_name' => $request->section_name,
+            'description' => $request->description,
+            'Created_by' => (Auth::user()->name),
+        ]);
+
+        session()->flash('success', 'تم إضافة القسم بنجاح');
+        return redirect('/sections');
+
     }
 
     /**

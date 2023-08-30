@@ -30,6 +30,15 @@
     <!-- breadcrumb -->
 @endsection
 @section('content')
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <!-- row -->
     <div class="row">
 
@@ -72,12 +81,16 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php $i=0 ?>
+                                @foreach ($sections as $section)
+                                <?php $i++ ?>
                                 <tr>
-                                    <td>1</td>
-                                    <td>Donna Snider</td>
-                                    <td>20-9-2023</td>
-                                    <td>2020-10-10</td>
+                                    <td>{{ $section->id }}</td>
+                                    <td>{{ $section->section_name }}</td>
+                                    <td>{{ $section->description }}</td>
+                                    <td>{{ $section->section_name }}</td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
