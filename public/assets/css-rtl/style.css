@@ -10182,6 +10182,11 @@ body {
     font-family: 'Cairo', sans-serif;
 }
 
+
+textarea{
+    resize: none;
+}
+
 .main-body, .main-dashboard {
   min-height: 100vh;
   display: flex;

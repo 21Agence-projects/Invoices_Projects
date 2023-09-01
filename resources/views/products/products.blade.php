@@ -1,5 +1,22 @@
 @extends('layouts.master')
+@section('title')
+    Products
+@stop
 @section('css')
+    <!-- Internal Data table css -->
+    <link href="{{ URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
+    <link href="{{ URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" />
+    <link href="{{ URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/plugins/prism/prism.css') }}" rel="stylesheet">
+    <!---Internal Owl Carousel css-->
+    <link href="{{ URL::asset('assets/plugins/owl-carousel/owl.carousel.css') }}" rel="stylesheet">
+    <!---Internal  Multislider css-->
+    <link href="{{ URL::asset('assets/plugins/multislider/multislider.css') }}" rel="stylesheet">
+    <!--- Select2 css -->
+    <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
@@ -21,55 +38,175 @@
             <div class="card mg-b-20">
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title mg-b-0">Bordered Table</h4>
-                        <i class="mdi mdi-dots-horizontal text-gray"></i>
+                        <a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-scale"
+                            data-toggle="modal" href="#exampleModal">Add Products</a>
                     </div>
-                    <p class="tx-12 tx-gray-500 mb-2">Example of Valex Bordered Table.. <a href="">Learn more</a>
-                    </p>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example1" class="table key-buttons text-md-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th class="border-bottom-0">#</th>
+                                        <th class="border-bottom-0">اسم المنتج</th>
+                                        <th class="border-bottom-0">اسم القسم</th>
+                                        <th class="border-bottom-0"> ملاحظات</th>
+                                        <th class="border-bottom-0">العمليات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $i = 0; ?>
+                                    @foreach ($products as $product)
+                                        <?php $i++; ?>
+                                        <tr>
+                                            <td>{{ $i }}</td>
+                                            <td>{{ $product->product_name }}</td>
+                                            <td>{{ $product->section->section_name }}</td>
+                                            <td>{{ $product->description }}</td>
+                                            <td>
+
+                                                <button class="btn btn-outline-success btn-sm"
+                                                    data-name="{{ $Product->Product_name }}"
+                                                    data-pro_id="{{ $Product->id }}"
+                                                    data-section_name="{{ $Product->section->section_name }}"
+                                                    data-description="{{ $Product->description }}" data-toggle="modal"
+                                                    data-target="#edit_Product">Edit</button>
+
+                                            </td>
+                                            <td>
+
+                                                <button class="btn btn-outline-danger btn-sm"
+                                                    data-pro_id="{{ $product->id }}"
+                                                    data-product_name="{{ $product->product_name }}" data-toggle="modal"
+                                                    data-target="#modaldemo9">Delete</button>
+
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="example1" class="table key-buttons text-md-nowrap">
-                            <thead>
-                                <tr>
-                                    <th class="border-bottom-0">#</th>
-                                    <th class="border-bottom-0">رقم الفاتورة</th>
-                                    <th class="border-bottom-0">تاريخ الفاتورة</th>
-                                    <th class="border-bottom-0">تاريخ الاستحقاق</th>
-                                    <th class="border-bottom-0">المنتج</th>
-                                    <th class="border-bottom-0">القسم</th>
-                                    <th class="border-bottom-0">الخصم</th>
-                                    <th class="border-bottom-0">نسبة الضريبة</th>
-                                    <th class="border-bottom-0">قيمة الضريبة</th>
-                                    <th class="border-bottom-0">الاجمالي</th>
-                                    <th class="border-bottom-0">الحالة</th>
-                                    <th class="border-bottom-0">ملاحظات</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Donna Snider</td>
-                                    <td>20-9-2023</td>
-                                    <td>2020-10-10</td>
-                                    <td>27</td>
-                                    <td>2011/01/25</td>
-                                    <td>$112,000</td>
-                                    <td>Donna</td>
-                                    <td>Customer</td>
-                                    <td>New York</td>
-                                    <td>27</td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
+            </div>
+            <!--/div-->
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                        </div>
+                        <form action="" method="post" enctype="multipart/form">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">name Product</label>
+                                    <input type="text" class="form-control" id="product_name" name="product_name"
+                                        required>
+                                </div>
+
+                                <label for="inlineFormCustomSelectPref" class="my-1 mr-2">Section</label>
+                                <select name="section_id" id="section_id" class="form-control" required>
+                                    <option value="" selected disabled>--select section--</option>
+                                    @foreach ($sections as $section)
+                                        <option value="{{ $section->id }}">{{ $section->section_name }}</option>
+                                    @endforeach
+                                </select>
+
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1">Observations</label>
+                                    <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success">Confirm</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- edit -->
+            <div class="modal fade" id="edit_Product" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Edit product</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action='products/update' method="post">
+                            @method('patch')
+                            @csrf
+                            <div class="modal-body">
+
+                                <div class="form-group">
+                                    <label for="title">name product:</label>
+
+                                    <input type="hidden" class="form-control" name="pro_id" id="pro_id"
+                                        value="">
+
+                                    <input type="text" class="form-control" name="Product_name" id="Product_name">
+                                </div>
+
+                                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Section</label>
+                                <select name="section_name" id="section_name" class="custom-select my-1 mr-sm-2"
+                                    required>
+                                    @foreach ($sections as $section)
+                                        <option>{{ $section->section_name }}</option>
+                                    @endforeach
+                                </select>
+
+                                <div class="form-group">
+                                    <label for="des">ملاحظات :</label>
+                                    <textarea name="description" cols="20" rows="5" id='description' class="form-control"></textarea>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Edit Statment</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-        <!--/div-->
-    </div>
-    <!-- /row -->
-@endsection
-@section('js')
-@endsection
+        <!-- /row -->
+    @endsection
+    @section('js')
+        <!-- Internal Data tables -->
+        <script src="{{ URL::asset('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.dataTables.min.js') }}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/js/responsive.dataTables.min.js') }}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/js/jquery.dataTables.js') }}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.bootstrap4.js') }}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.buttons.min.js') }}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js') }}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/js/jszip.min.js') }}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/js/pdfmake.min.js') }}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/js/vfs_fonts.js') }}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/js/buttons.html5.min.js') }}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/js/buttons.print.min.js') }}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js') }}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js') }}"></script>
+        <!--Internal  Datatable js -->
+        <script src="{{ URL::asset('assets/js/table-data.js') }}"></script>
+        <!-- Internal Prism js-->
+        <script src="{{ URL::asset('assets/plugins/prism/prism.js') }}"></script>
+        <!--Internal  Datepicker js -->
+        <script src="{{ URL::asset('assets/plugins/jquery-ui/ui/widgets/datepicker.js') }}"></script>
+        <!-- Internal Select2 js-->
+        <script src="{{ URL::asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+        <!-- Internal Modal js-->
+        <script src="{{ URL::asset('assets/js/modal.js') }}"></script>
+    @endsection
