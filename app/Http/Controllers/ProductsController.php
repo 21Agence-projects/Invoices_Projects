@@ -33,6 +33,14 @@ class ProductsController extends Controller
     public function store(Request $request)
     {
         //
+        products::create([
+            'product_name' => $request->product_name,
+            'section_id' => $request->section_id,
+            'description' => $request->description,
+        ]);
+
+        session()->flash('Add' , 'تم اضافة المنتج بنجاح ');
+        return redirect('/products');
     }
 
     /**

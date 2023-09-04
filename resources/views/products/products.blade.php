@@ -81,7 +81,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="example1" class="table key-buttons text-md-nowrap">
+                            <table id="example1" class="table key-buttons text-md-nowrap" data-page-length='50'>
                                 <thead>
                                     <tr>
                                         <th class="border-bottom-0">#</th>
@@ -103,14 +103,11 @@
                                             <td>
 
                                                 <button class="btn btn-outline-success btn-sm"
-                                                    data-name="{{ $Product->Product_name }}"
-                                                    data-pro_id="{{ $Product->id }}"
-                                                    data-section_name="{{ $Product->section->section_name }}"
-                                                    data-description="{{ $Product->description }}" data-toggle="modal"
+                                                    data-name="{{ $product->product_name }}"
+                                                    data-pro_id="{{ $product->id }}"
+                                                    data-section_name="{{ $product->section->section_name }}"
+                                                    data-description="{{ $product->description }}" data-toggle="modal"
                                                     data-target="#edit_Product">Edit</button>
-
-                                            </td>
-                                            <td>
 
                                                 <button class="btn btn-outline-danger btn-sm"
                                                     data-pro_id="{{ $product->id }}"
@@ -133,7 +130,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Add product</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                         </div>
@@ -141,7 +138,7 @@
                             @csrf
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">name Product</label>
+                                    <label for="exampleInputEmail1">name product</label>
                                     <input type="text" class="form-control" id="product_name" name="product_name"
                                         required>
                                 </div>

@@ -14,6 +14,6 @@ class products extends Model
 
     public function section()
     {
-        return $this->belongsTo('sections');
+        return $this->belongsTo('App\Models\sections'); // Assuming 'sections' is in the 'App\Models' namespace
     }
 }
