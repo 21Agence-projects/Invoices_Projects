@@ -34,7 +34,7 @@ class ProductsController extends Controller
     {
         //
         products::create([
-            'product_name' => $request->product_name,
+            'Product_name' => $request->Product_name,
             'section_id' => $request->section_id,
             'description' => $request->description,
         ]);
@@ -62,10 +62,22 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, products $products)
+    public function update(Request $request)
     {
         //
+        $id = sections::where('section_name' , $request->section_name)->first()->id;
+
         $products = products::findOrFail($request->pro_id);
+
+        $products->update([
+            'Product_name' => $request->Product_name,
+            'description' => $request->description,
+            'section_id' => $id,
+        ]);
+
+        session()->flash('Edit' , 'تم تعديل المنتج بنجاح');
+        return back();
+
     }
 
     /**

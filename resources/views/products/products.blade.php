@@ -97,13 +97,13 @@
                                         <?php $i++; ?>
                                         <tr>
                                             <td>{{ $i }}</td>
-                                            <td>{{ $product->product_name }}</td>
+                                            <td>{{ $product->Product_name }}</td>
                                             <td>{{ $product->section->section_name }}</td>
                                             <td>{{ $product->description }}</td>
                                             <td>
 
                                                 <button class="btn btn-outline-success btn-sm"
-                                                    data-name="{{ $product->product_name }}"
+                                                    data-name="{{ $product->Product_name }}"
                                                     data-pro_id="{{ $product->id }}"
                                                     data-section_name="{{ $product->section->section_name }}"
                                                     data-description="{{ $product->description }}" data-toggle="modal"
@@ -111,7 +111,7 @@
 
                                                 <button class="btn btn-outline-danger btn-sm"
                                                     data-pro_id="{{ $product->id }}"
-                                                    data-product_name="{{ $product->product_name }}" data-toggle="modal"
+                                                    data-Product_name="{{ $product->Product_name }}" data-toggle="modal"
                                                     data-target="#modaldemo9">Delete</button>
 
                                             </td>
@@ -139,7 +139,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">name product</label>
-                                    <input type="text" class="form-control" id="product_name" name="product_name"
+                                    <input type="text" class="form-control" id="Product_name" name="Product_name"
                                         required>
                                 </div>
 
@@ -230,7 +230,7 @@
                             <div class="modal-body">
                                 <p>هل انت متاكد من عملية الحذف ؟</p><br>
                                 <input type="hidden" name="pro_id" id="pro_id" value="">
-                                <input class="form-control" name="product_name" id="product_name" type="text"
+                                <input class="form-control" name="Product_name" id="Product_name" type="text"
                                     readonly>
                             </div>
                             <div class="modal-footer">
@@ -295,12 +295,10 @@
         $('#modaldemo9').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
             var pro_id = button.data('pro_id')
-            var product_name = button.data('product_name')
+            var Product_name = button.data('Product_name')
             var modal = $(this)
             modal.find('.modal-body #pro_id').val(pro_id);
-            modal.find('.modal-body #product_name').val(product_name);
+            modal.find('.modal-body #Product_name').val(Product_name);
         })
-
-
     </script>
 @endsection
