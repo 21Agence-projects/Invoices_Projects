@@ -276,4 +276,31 @@
     <script src="{{ URL::asset('assets/plugins/select2/js/select2.min.js') }}"></script>
     <!-- Internal Modal js-->
     <script src="{{ URL::asset('assets/js/modal.js') }}"></script>
+
+    <script>
+        $('#edit_Product').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var Product_name = button.data('name')
+            var section_name = button.data('section_name')
+            var pro_id = button.data('pro_id')
+            var description = button.data('description')
+            var modal = $(this)
+            modal.find('.modal-body #Product_name').val(Product_name);
+            modal.find('.modal-body #section_name').val(section_name);
+            modal.find('.modal-body #description').val(description);
+            modal.find('.modal-body #pro_id').val(pro_id);
+        })
+
+
+        $('#modaldemo9').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var pro_id = button.data('pro_id')
+            var product_name = button.data('product_name')
+            var modal = $(this)
+            modal.find('.modal-body #pro_id').val(pro_id);
+            modal.find('.modal-body #product_name').val(product_name);
+        })
+
+
+    </script>
 @endsection
