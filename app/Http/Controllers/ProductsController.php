@@ -83,8 +83,14 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(products $products)
+    public function destroy(Request $request)
     {
         //
+        $products = products::findOrFail($request->pro_id);
+
+        $products->delete();
+
+        session()->flash('Delete' , 'تم الحذف المنتج بنجاح');
+        return back();
     }
 }
