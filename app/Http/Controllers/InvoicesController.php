@@ -16,7 +16,7 @@ class InvoicesController extends Controller
     {
         //
         $invoices = invoices::all();
-        return view('invoices.invoices' , compact('invoices'));
+        return view('invoices.invoices', compact('invoices'));
     }
 
     /**
@@ -28,7 +28,7 @@ class InvoicesController extends Controller
 
         $sections = sections::all();
 
-        return view('invoices.add_invoice' , compact('sections'));
+        return view('invoices.add_invoice', compact('sections'));
     }
 
     /**
@@ -37,6 +37,24 @@ class InvoicesController extends Controller
     public function store(Request $request)
     {
         //
+        invoices::create([
+            'invoice_number' => $request->invoice_number,
+            'invoice_Date' => $request->invoice_Date,
+            'Due_date' => $request->Due_date,
+            'product' => $request->product,
+            'section_id' => $request->Section,
+            'Amount_collection' => $request->Amount_collection,
+            'Amount_Commission' => $request->Amount_Commission,
+            'Discount' => $request->Discount,
+            'Value_VAT' => $request->Value_VAT,
+            'Rate_VAT' => $request->Rate_VAT,
+            'Total' => $request->Total,
+            'Status' => 'غير مدفوعة',
+            'Value_Status' => 2,
+            'note' => $request->note,
+        ]);
+
+        $invoice_id  = invoices::latest()->first()->id;
     }
 
     /**
@@ -73,7 +91,7 @@ class InvoicesController extends Controller
 
     public function getproducts($id)
     {
-        $states = DB::table('products')->where('section_id', $id)->pluck("product_name" , "id");
+        $states = DB::table('products')->where('section_id', $id)->pluck("product_name", "id");
 
         return json_encode($states);
     }
