@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\invoice_attachments;
+use App\Models\invoices;
 use App\Models\invoices_details;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class InvoicesDetailsController extends Controller
 {
@@ -37,14 +40,24 @@ class InvoicesDetailsController extends Controller
     public function show(invoices_details $invoices_details)
     {
         //
+
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(invoices_details $invoices_details)
+    public function edit($id)
     {
         //
+
+        $invoices = invoices::where('id' , $id)->first();
+        $details = invoices_details::where('Id_invoice' , $id)->get();
+        $attachments = invoice_attachments::where('invoice_id' , $id)->get();
+
+        return view('invoices.details_invoice' , compact('attachments' , 'details' , 'invoices'));
+
+
+
     }
 
     /**
