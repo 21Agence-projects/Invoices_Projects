@@ -49,15 +49,10 @@ class InvoicesDetailsController extends Controller
     public function edit($id)
     {
         //
-
-        $invoices = invoices::where('id' , $id)->first();
-        $details = invoices_details::where('Id_invoice' , $id)->get();
-        $attachments = invoice_attachments::where('invoice_id' , $id)->get();
-
-        return view('invoices.details_invoice' , compact('attachments' , 'details' , 'invoices'));
-
-
-
+        $invoices = invoices::where('id', $id)->first();
+        $details = invoices_details::where('Id_invoice', $id)->get();
+        $attachments = invoice_attachments::where('invoice_id', $id)->get();
+        return view('invoices.details_invoice', compact('attachments', 'details', 'invoices'));
     }
 
     /**

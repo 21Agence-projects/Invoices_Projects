@@ -35,11 +35,17 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource('invoices', InvoicesController::class);
 
+Route::resource('sections', SectionsController::class);
+
 Route::get('/section/{id}', [InvoicesController::class, 'getproducts'])->name('getproducts');
 
 Route::get('/InvoicesDetails/{id}', [InvoicesDetailsController::class, 'edit']);
 
-Route::resource('sections', SectionsController::class);
+Route::get('download/{Invoice_number}/{file_name}' , [InvoicesDetailsController::class, 'get_file']);
+
+Route::get('View_file/{Invoice_number}/{file_name}' , [InvoicesDetailsController::class, 'open_file']);
+
+Route::post('delete_file' , [InvoicesDetailsController::class, 'destroy'])->name('delete_file');
 
 Route::resource('products', ProductsController::class);
 
