@@ -7,6 +7,7 @@ use App\Models\invoices;
 use App\Models\invoices_details;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class InvoicesDetailsController extends Controller
 {
@@ -66,8 +67,61 @@ class InvoicesDetailsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(invoices_details $invoices_details)
+    public function destroy(Request $request)
     {
         //
+
+        $invoices = invoice_attachments::findOrFail($request->id_file);
+        $invoices->delete();
+        Storage::disk('public_uploads')->delete($request->invoice_number . '/' . $request->file_name);
+        session()->flash('delete', 'تم حذف المرفق بنجاح');
+        return back();
+    }
+
+    // public function get_file($invoice_number , $file_name)
+    // {
+    //     $contents= Storage::disk('public_uploads')->getDriver()->getAdapter()->applyPathPrefix($invoice_number.'/'.$file_name);
+    //     return response()->download( $contents);
+    // }
+
+    public function get_file($invoice_number, $file_name)
+    {
+        $disk = Storage::disk('public_uploads');
+        $file_path = $invoice_number . '/' . $file_name;
+
+        // Check if the file exists
+        if ($disk->exists($file_path)) {
+            $headers = [
+                'Content-Type' => 'application/octet-stream',
+                'Content-Disposition' => 'attachment; filename="' . $file_name . '"',
+            ];
+
+            return response()->stream(
+                function () use ($disk, $file_path) {
+                    echo $disk->readStream($file_path);
+                },
+                200,
+                $headers
+            );
+        } else {
+            // Handle the case where the file doesn't exist, e.g., return a 404 response.
+            return response()->json(['error' => 'File not found'], 404);
+        }
+    }
+
+    public function open_file($invoice_number, $file_name)
+    {
+        // $files = Storage::disk('public_uploads')->getDriver()->getAdapter()->applyPathPrefix($invoice_number.'/'.$file_name);
+        // return response()->file($files);
+
+        $file_path = Storage::disk('public_uploads')->path($invoice_number . '/' . $file_name);
+
+        // Check if the file exists before returning it
+        if (file_exists($file_path)) {
+            return response()->file($file_path);
+        } else {
+            // Handle the case where the file doesn't exist, e.g., return a 404 response.
+            return response()->json(['error' => 'File not found'], 404);
+        }
     }
 }

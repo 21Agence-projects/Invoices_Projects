@@ -125,7 +125,7 @@
                                                                 <td><span
                                                                         class="badge badge-pill badge-success">{{ $invoices->Status }}</span>
                                                                 </td>
-                                                            @elseif($invoices->Value_Status ==2)
+                                                            @elseif($invoices->Value_Status == 2)
                                                                 <td><span
                                                                         class="badge badge-pill badge-danger">{{ $invoices->Status }}</span>
                                                                 </td>
@@ -176,7 +176,7 @@
                                                                     <td><span
                                                                             class="badge badge-pill badge-success">{{ $x->Status }}</span>
                                                                     </td>
-                                                                @elseif($x->Value_Status ==2)
+                                                                @elseif($x->Value_Status == 2)
                                                                     <td><span
                                                                             class="badge badge-pill badge-danger">{{ $x->Status }}</span>
                                                                     </td>
@@ -202,13 +202,12 @@
                                         <div class="tab-pane" id="tab6">
                                             <!--المرفقات-->
                                             <div class="card card-statistics">
-                                                @can('اضافة مرفق')
                                                     <div class="card-body">
                                                         <p class="text-danger">* صيغة المرفق pdf, jpeg ,.jpg , png </p>
                                                         <h5 class="card-title">اضافة مرفقات</h5>
                                                         <form method="post" action="{{ url('/InvoiceAttachments') }}"
                                                             enctype="multipart/form-data">
-                                                            {{ csrf_field() }}
+                                                            @csrf
                                                             <div class="custom-file">
                                                                 <input type="file" class="custom-file-input" id="customFile"
                                                                     name="file_name" required>
@@ -223,7 +222,7 @@
                                                                 name="uploadedFile">تاكيد</button>
                                                         </form>
                                                     </div>
-                                                @endcan
+
                                                 <br>
 
                                                 <div class="table-responsive mt-15">
@@ -251,7 +250,8 @@
 
                                                                         <a class="btn btn-outline-success btn-sm"
                                                                             href="{{ url('View_file') }}/{{ $invoices->invoice_number }}/{{ $attachment->file_name }}"
-                                                                            role="button"><i class="fas fa-eye"></i>&nbsp;
+                                                                            role="button"><i
+                                                                                class="fas fa-eye"></i>&nbsp;
                                                                             عرض</a>
 
                                                                         <a class="btn btn-outline-info btn-sm"
@@ -260,14 +260,12 @@
                                                                                 class="fas fa-download"></i>&nbsp;
                                                                             تحميل</a>
 
-                                                                        @can('حذف المرفق')
                                                                             <button class="btn btn-outline-danger btn-sm"
                                                                                 data-toggle="modal"
                                                                                 data-file_name="{{ $attachment->file_name }}"
                                                                                 data-invoice_number="{{ $attachment->invoice_number }}"
                                                                                 data-id_file="{{ $attachment->id }}"
                                                                                 data-target="#delete_file">حذف</button>
-                                                                        @endcan
 
                                                                     </td>
                                                                 </tr>
@@ -306,7 +304,7 @@
                 </div>
                 <form action="{{ route('delete_file') }}" method="post">
 
-                    {{ csrf_field() }}
+                    @csrf
                     <div class="modal-body">
                         <p class="text-center">
                         <h6 style="color:red"> هل انت متاكد من عملية حذف المرفق ؟</h6>
@@ -360,7 +358,6 @@
             modal.find('.modal-body #file_name').val(file_name);
             modal.find('.modal-body #invoice_number').val(invoice_number);
         })
-
     </script>
 
     <script>
@@ -369,7 +366,6 @@
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
         });
-
     </script>
 
 @endsection
