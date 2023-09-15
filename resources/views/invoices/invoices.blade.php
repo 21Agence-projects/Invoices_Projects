@@ -64,7 +64,8 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="example1" class="table key-buttons text-md-nowrap" data-page-length='50'style="text-align: center">
+                        <table id="example1" class="table key-buttons text-md-nowrap"
+                            data-page-length='50'style="text-align: center">
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">#</th>
@@ -84,11 +85,11 @@
                             </thead>
                             <tbody>
                                 @php
-                                $i = 0;
+                                    $i = 0;
                                 @endphp
                                 @foreach ($invoices as $invoice)
                                     @php
-                                    $i++
+                                        $i++;
                                     @endphp
                                     <tr>
                                         <td>{{ $i }}</td>
@@ -115,7 +116,34 @@
                                         </td>
 
                                         <td>{{ $invoice->note }}</td>
-                                        <td></td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn ripple btn-primary btn-sm" aria-expanded="false"
+                                                    aria-haspopup="true" data-toggle="dropdown" type="button">
+                                                    العمليات <i class="fa fa-caret-down ml-1"></i>
+                                                </button>
+                                                <div class="dropdown-menu tx-13">
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('edit_invoice') }}/{{ $invoice->id }}">edit
+                                                        invoice</a>
+                                                    <a class="dropdown-item" href="#"
+                                                        data-invoice_id="{{ $invoice->id }}" data-toggle="modal"
+                                                        data-target="#delete_invoice">
+                                                        <i class="text-danger fas fa-trash-alt">&nbsp;&nbsp;delete
+                                                            invoice</i>
+                                                    </a>
+                                                    <a class="dropdown-item" href="#"
+                                                        data-invoice_id="{{ $invoice->id }}" data-toggle="modal"
+                                                        data-target="#Transfer_invoice">
+                                                        <i class="text-warning fas fa-exchange-alt">&nbsp;&nbsp; convert to
+                                                            the Archive</i>
+                                                    </a>
+                                                    <a class="dropdown-item" href="Print_invoice/{{ $invoice->id }}">
+                                                        <i class="text-success fas fa-print"></i>&nbsp;&nbsp; print invoice
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
 
@@ -127,9 +155,9 @@
         </div>
         <!--/div-->
     </div>
-            </div>
-        </div>
-        <!--/div-->
+    </div>
+    </div>
+    <!--/div-->
     </div>
     <!-- /row -->
 @endsection

@@ -51,6 +51,8 @@ Route::get('View_file/{Invoice_number}/{file_name}' , [InvoicesDetailsController
 
 Route::post('delete_file' , [InvoicesDetailsController::class, 'destroy'])->name('delete_file');
 
+Route::get('/edit_invoice/{id}' , [InvoicesController::class , 'edit']);
+
 Route::resource('products', ProductsController::class);
 
 Route::get('/{page}', [AdminController::class, 'index'])->name('index');
