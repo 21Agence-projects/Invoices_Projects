@@ -153,9 +153,19 @@ class InvoicesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(invoices $invoices)
+    public function destroy(Request $request)
     {
         //
+        $id = $request->invoice_id;
+        $invoices = invoices::where('id' ,$id)->first();
+
+        // $Details = invoice_attachments::where('invoice_id', $id)->first();
+
+        $invoices->forceDelete();
+
+        session()->flash('delete_invoice');
+        return redirect('/invoices');
+
     }
 
     public function getproducts($id)
