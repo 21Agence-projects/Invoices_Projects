@@ -41,9 +41,12 @@ class InvoicesController extends Controller
     public function store(Request $request)
     {
         //
+
+        $invoiceDate = date('Y-m-d', strtotime($request->invoice_Date));
+
         invoices::create([
             'invoice_number' => $request->invoice_number,
-            'invoice_Date' => $request->invoice_Date,
+            'invoice_Date' => $invoiceDate,
             'Due_date' => $request->Due_date,
             'product' => $request->product,
             'section_id' => $request->Section,
@@ -97,16 +100,20 @@ class InvoicesController extends Controller
             $request->pic->move(public_path('Attachments/' . $invoice_number) , $imageName);
         }
 
-        session()->flash('Add' , 'success Add');
+        session()->flash('Add' , 'success Add invoice');
         return back();
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(invoices $invoices)
+    public function show($id)
     {
         //
+
+        $invoices = invoices::where('id' , $id)->first();
+
+        return view('invoices.Status_Update' , compact('invoices'));
     }
 
     /**
@@ -161,7 +168,7 @@ class InvoicesController extends Controller
         $Details = invoice_attachments::where('invoice_id', $id)->first();
 
         if(!empty($Details->invoice_number)){
-            Storage::disk('public_uploads')->delete($Details->invoice_number. '/' . $Details->file_name);
+            Storage::disk('public_uploads')->deleteDirectory($Details->invoice_number. '/' . $Details->file_name);
         }
 
         $invoices->forceDelete();
@@ -176,4 +183,58 @@ class InvoicesController extends Controller
 
         return json_encode($states);
     }
+
+  public function Status_Update($id, Request $request)
+    {
+        $invoices = invoices::findOrFail($id);
+
+        if ($request->Status === 'مدفوعة') {
+
+            // Convert the date to the correct format (YYYY-MM-DD)
+            $paymentDate = date('Y-m-d', strtotime($request->Payment_Date));
+
+            $invoices->update([
+                'Value_Status' => $request->Status === 'مدفوعة' ? 1 : 3,
+                'Status' => $request->Status,
+                'Payment_Date' => $paymentDate,
+            ]);
+
+            invoices_Details::create([
+            'id_Invoice' => $request->invoice_id,
+            'invoice_number' => $request->invoice_number,
+            'product' => $request->product,
+            'Section' => $request->Section,
+            'Status' => $request->Status,
+            'Value_Status' => $request->Status === 'مدفوعة' ? 1 : 3,
+            'note' => $request->note,
+            'Payment_Date' => $paymentDate,
+            'user' => Auth::user()->name,
+        ]);
+        }
+
+        else {
+                $paymentDate = date('Y-m-d', strtotime($request->Payment_Date));
+            $invoices->update([
+                'Value_Status' => $request->Status === 'مدفوعة' ? 1 : 3,
+                'Status' => $request->Status,
+                'Payment_Date' => $paymentDate,
+            ]);
+            invoices_Details::create([
+                'id_Invoice' => $request->invoice_id,
+                'invoice_number' => $request->invoice_number,
+                'product' => $request->product,
+                'Section' => $request->Section,
+                'Status' => $request->Status,
+                'Value_Status' => 3,
+                'note' => $request->note,
+                'Payment_Date' => $paymentDate,
+                'user' => (Auth::user()->name),
+            ]);
+        }
+        session()->flash('Status_Update');
+        return redirect('/invoices');
+
+    }
+
+
 }

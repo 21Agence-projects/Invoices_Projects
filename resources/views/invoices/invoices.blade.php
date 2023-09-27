@@ -144,6 +144,10 @@
                                                         <i class="text-danger fas fa-trash-alt">&nbsp;&nbsp;delete
                                                             invoice</i>
                                                     </a>
+                                                    <a class="dropdown-item" href="{{ url::route('Status_show' , [$invoice->id]) }}">
+                                                    <i class="text-success fas fa-money-bill">&nbsp;&nbsp;Payment status
+                                                        </i>
+                                                    </a>
                                                     <a class="dropdown-item" href="#"
                                                         data-invoice_id="{{ $invoice->id }}" data-toggle="modal"
                                                         data-target="#Transfer_invoice">

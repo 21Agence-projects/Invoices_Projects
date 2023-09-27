@@ -53,6 +53,11 @@ Route::post('delete_file' , [InvoicesDetailsController::class, 'destroy'])->name
 
 Route::get('/edit_invoice/{id}' , [InvoicesController::class , 'edit']);
 
+Route::get('/Status_show/{id}' , [InvoicesController::class , 'show'])->name('Status_show');
+
+Route::post('/Status_Update/{id}' , [InvoicesController::class , 'Status_Update'])->name('Status_Update');
+
+
 Route::resource('products', ProductsController::class);
 
 Route::get('/{page}', [AdminController::class, 'index'])->name('index');
