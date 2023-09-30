@@ -60,4 +60,14 @@ Route::post('/Status_Update/{id}' , [InvoicesController::class , 'Status_Update'
 
 Route::resource('products', ProductsController::class);
 
+Route::get('Invoices_Paid' , [InvoicesController::class , 'Invoice_Paid']);
+
+Route::get('Invoices_UnPaid' , [InvoicesController::class , 'Invoice_UnPaid']);
+
+Route::get('Invoices_Partial' , [InvoicesController::class , 'Invoice_Partial']);
+
+
+
 Route::get('/{page}', [AdminController::class, 'index'])->name('index');
+
+
