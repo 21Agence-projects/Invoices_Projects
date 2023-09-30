@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InvoiceAttachmentsController;
 use App\Http\Controllers\InvoicesController;
+use App\Http\Controllers\InvoiceAchiveController;
 use App\Http\Controllers\InvoicesDetailsController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\SectionsController;
@@ -56,6 +57,8 @@ Route::get('/edit_invoice/{id}' , [InvoicesController::class , 'edit']);
 Route::get('/Status_show/{id}' , [InvoicesController::class , 'show'])->name('Status_show');
 
 Route::post('/Status_Update/{id}' , [InvoicesController::class , 'Status_Update'])->name('Status_Update');
+
+Route::resource('Archive', InvoiceAchiveController::class);
 
 
 Route::resource('products', ProductsController::class);
