@@ -1,14 +1,15 @@
 <?php
 
+use App\Exports\InvoicesExport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\InvoiceAttachmentsController;
 use App\Http\Controllers\InvoicesController;
-use App\Http\Controllers\InvoiceAchiveController;
-use App\Http\Controllers\InvoicesDetailsController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\SectionsController;
+use App\Http\Controllers\InvoiceAchiveController;
+use App\Http\Controllers\InvoicesDetailsController;
+use App\Http\Controllers\InvoiceAttachmentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,7 +72,8 @@ Route::get('Invoices_Partial' , [InvoicesController::class , 'Invoice_Partial'])
 
 Route::get('Print_invoice/{id}' , [InvoicesController::class , 'Print_invoice']);
 
+Route::get('export_invoices', [InvoicesController::class, 'export']);
+
+
 
 Route::get('/{page}', [AdminController::class, 'index'])->name('index');
-
-

@@ -10,8 +10,9 @@ class invoices extends Model
 {
     use HasFactory , SoftDeletes;
 
+
     // protected $guarded = [];
-    protected $fillable = [
+     protected $fillable = [
         'invoice_number',
         'invoice_Date',
         'Due_date',
