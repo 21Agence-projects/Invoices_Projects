@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\invoices;
 use App\Models\sections;
-use App\Models\invoice_attachments;
 use Illuminate\Http\Request;
 use App\Models\invoices_details;
+use App\Notifications\AddInvoice;
 use Illuminate\Support\Facades\DB;
+use App\Models\invoice_attachments;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage; // Add this line
 
 class InvoicesController extends Controller
 {
@@ -95,10 +99,13 @@ class InvoicesController extends Controller
             $attachments->save();
 
             //mov pic
-
             $imageName = $request->pic->getClientOriginalName();
             $request->pic->move(public_path('Attachments/' . $invoice_number) , $imageName);
         }
+
+        $user = User::first();
+
+        Notification::send($user, new AddInvoice($invoice_id));
 
         session()->flash('Add' , 'success Add invoice');
         return back();
